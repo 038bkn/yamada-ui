@@ -143,11 +143,14 @@ export const useBreakpointValue = <T extends any>(
   const { theme } = useTheme()
   const breakpoint = useBreakpoint()
 
-  return getBreakpointValue<T>(values)(theme, breakpoint)
+  return useMemo(
+    () => getBreakpointValue<T>(values)(theme, breakpoint),
+    [values, theme, breakpoint],
+  )
 }
 
 export const getBreakpointValue =
-  <T extends any>(values: ResponsiveObject<T> = {}) =>
+  <T extends any>(values: ResponsiveObject<T>) =>
   (theme: StyledTheme, breakpoint: Theme["breakpoints"]): T => {
     if (!theme) throw Error("getBreakpointValue: `theme` is undefined.")
 
